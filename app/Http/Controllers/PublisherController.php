@@ -30,6 +30,7 @@ class PublisherController extends Controller
 
         return response()->json([
             'status' => true,
+            'message' => 'Succesfully retrieved Publishers',
             'data' => $query->paginate(10)
         ]);
     }
@@ -48,6 +49,7 @@ class PublisherController extends Controller
 
         return response()->json([
             'status' => true,
+            'message' => 'Succesfully created new Publisher',
             'data' => $publisher
         ], 201);
     }
@@ -61,6 +63,7 @@ class PublisherController extends Controller
 
         return response()->json([
             'status' => true,
+            'message' => 'Succesfully Retrieved Publishers',
             'data' => $publisher
         ]);
     }
@@ -81,6 +84,7 @@ class PublisherController extends Controller
 
         return response()->json([
             'status' => true,
+            'message' => 'Succefully Updated Publisher',
             'data' => $publisher
         ]);
     }
@@ -94,6 +98,6 @@ class PublisherController extends Controller
 
         $publisher->delete();
 
-        return response()->json(['message' => 'Deleted Succesfully!']);
+        return response()->json(['status'=> true, 'message' => 'Deleted Succesfully!']);
     }
 }

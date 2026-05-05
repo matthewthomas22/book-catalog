@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\PublisherController;
 use illuminate\Support\Facades\Route;
 
 Route::post('register', [AuthController::class, 'register']);
@@ -12,6 +13,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('authors', AuthorController::class);
     Route::apiResource('books', BookController::class);
+    Route::apiResource('publishers', PublisherController::class);
 });
 
 

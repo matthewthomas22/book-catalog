@@ -29,7 +29,11 @@ class AuthorController extends Controller
             $query->orderBy($sort, $direction);
         }
 
-        return response()->json($query->paginate(10));
+        return response()->json([
+            'status' => true,
+            'message' => 'Authors Retreived Succesfully',
+            'data' => $query->paginate(10)
+        ]);
         
     }
 
@@ -44,7 +48,11 @@ class AuthorController extends Controller
 
         $author = Author::create($validated);
 
-        return response()->json($author, 201);
+        return response()->json([
+            'status' => true,
+            'message' => 'Data Succefully Created',
+            'data' => $author
+        ],201);
     }
 
     /**
@@ -54,7 +62,11 @@ class AuthorController extends Controller
     {
         $author = Author::findOrFail($id);
 
-        return response()->json($author);
+        return response()->json([
+            'status' => true,
+            'message' => 'Succesfully retrieved authors',
+            'data' => $author
+        ]);
     }
 
     /**
@@ -70,7 +82,11 @@ class AuthorController extends Controller
 
         $author->update($validated);
 
-        return response()->json($author);
+        return response()->json([
+            'status' => true,
+            'message' => 'Succesfully Updated author',
+            'data' => $author
+        ]);
     }
 
     /**
@@ -82,6 +98,6 @@ class AuthorController extends Controller
 
         $author->delete();
 
-        return response()->json(['message' => 'Deleted succesfully!']);
+        return response()->json(['status' => true, 'message' => 'Deleted succesfully!']);
     }
 }

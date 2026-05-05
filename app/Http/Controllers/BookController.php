@@ -39,7 +39,11 @@ class BookController extends Controller
         }
         
 
-        return response()->json([$query->paginate(10)]);
+        return response()->json([
+            'status' => true,
+            'message' => 'Succesfully retrieved Books',
+            'data' => $query->paginate(10)
+        ]);
     }
 
     /**
@@ -56,7 +60,11 @@ class BookController extends Controller
 
         $book = Book::create($validated);
 
-        return response()->json($book, 201);
+        return response()->json([
+            'status' => true,
+            'message' => 'Succesfully Created New Book',
+            'data' => $book
+        ], 201);
     }
 
     /**
@@ -66,7 +74,11 @@ class BookController extends Controller
     {
         $book = Book::with(['author', 'publisher'])->findOrFail($id);
 
-        return response()->json($book);
+        return response()->json([
+            'status' => true,
+            'message' => 'Succesfully Retrieved Book',
+            'data' => $book
+        ]);
     }
 
     /**
@@ -85,7 +97,11 @@ class BookController extends Controller
 
         $book->update($validated);
 
-        return response()->json($book);
+        return response()->json([
+            'status' => true,
+            'message' => 'Succesfully Updated Book',
+            'data' => $book
+        ]);
 
     }
 
@@ -98,6 +114,6 @@ class BookController extends Controller
 
         $book->delete();
 
-        return response()->json(['message' => 'Deleted Succesfully!']);
+        return response()->json(['status' => true, 'message' => 'Deleted Succesfully!']);
     }
 }
