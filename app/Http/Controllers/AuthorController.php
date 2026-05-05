@@ -11,9 +11,26 @@ class AuthorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Author::paginate(10));
+        $query = Author::query();
+
+        // Filtering
+        if($request->filled('name')){
+            $query->where('name', 'ILIKE', '%'.$request->name.'%');
+        }
+
+        // Sorting
+        $allowedSorts = ['name', 'created_at'];
+        $sort = $request->input('sort');
+        $direction = $request->input('direction', 'asc');
+
+        if(in_array($sort, $allowedSorts) && in_array($direction, ['asc','desc'])){
+            $query->orderBy($sort, $direction);
+        }
+
+        return response()->json($query->paginate(10));
+        
     }
 
     /**

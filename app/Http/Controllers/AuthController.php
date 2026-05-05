@@ -10,25 +10,17 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
     public function register(Request $request){
-        $validator = Validator::make($request->all(), [
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6'
         ]);
 
-        if ($validator->fails()){
-            return response()->json($validator->errors(), 400);
-        }
+        $validated['password'] = bcrypt($validated['password']);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $user = User::create($validated);
 
-        $token = auth('api')->login($user);
-
-        return $this->respondWithToken($token);
+        return response()->json($user, 201);
     }
 
     public function login(Request $request){
@@ -38,7 +30,10 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->respondWithToken($token);
+        // return $this->respondWithToken($token);
+        return response()->json([
+            'token' => $token
+        ]);
     }
 
     public function logout()
@@ -53,12 +48,12 @@ class AuthController extends Controller
         return $this->respondWithToken(auth('api')->refresh());
     }
 
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type'=> 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
-        ]);
-    }
+    // protected function respondWithToken($token)
+    // {
+    //     return response()->json([
+    //         'access_token' => $token,
+    //         'token_type'=> 'bearer',
+    //         'expires_in' => auth('api')->factory()->getTTL() * 60
+    //     ]);
+    // }
 }
