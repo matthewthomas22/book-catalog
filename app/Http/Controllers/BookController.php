@@ -54,7 +54,7 @@ class BookController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'author_id' => 'required|exist:authors,id',
-            'publisher_id' => 'required|exists:publisher,id',
+            'publisher_id' => 'required|exists:publishers,id',
             'published_date' => 'nullable|date'
         ]);
 
@@ -90,8 +90,8 @@ class BookController extends Controller
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'author_id' => 'required|exist:authors,id',
-            'publisher_id' => 'required|exists:publisher,id',
+            'author_id' => 'required|exists:authors,id',
+            'publisher_id' => 'required|exists:publishers,id',
             'published_date' => 'nullable|date'
         ]);
 
@@ -101,7 +101,7 @@ class BookController extends Controller
             'status' => true,
             'message' => 'Succesfully Updated Book',
             'data' => $book
-        ]);
+        ], 200);
 
     }
 
